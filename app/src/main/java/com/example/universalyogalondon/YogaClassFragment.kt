@@ -18,6 +18,7 @@ import android.widget.NumberPicker
 import android.text.InputType
 import android.widget.Spinner
 import com.google.android.material.button.MaterialButtonToggleGroup
+import android.widget.AutoCompleteTextView
 
 class YogaClassFragment : Fragment() {
 
@@ -97,7 +98,7 @@ class YogaClassFragment : Fragment() {
     }
 
     private fun updateDurationDisplay() {
-        binding.textViewDuration.text = "$duration min"
+        binding.textViewDuration.text = duration.toString()
     }
 
     private fun setupPriceField() {
@@ -107,22 +108,18 @@ class YogaClassFragment : Fragment() {
     private fun setupCurrencySelector() {
         val currencies = listOf("£", "$", "€")
         val adapter = ArrayAdapter(requireContext(), R.layout.item_currency, currencies)
-        binding.spinnerCurrency.adapter = adapter
+        (binding.autoCompleteCurrency as? AutoCompleteTextView)?.setAdapter(adapter)
     }
 
     private fun setupClassTypeToggle() {
         val classTypes = resources.getStringArray(R.array.class_types)
-        classTypes.forEachIndexed { index, type ->
-            val button = MaterialButton(requireContext(), null, com.google.android.material.R.style.Widget_MaterialComponents_Button_OutlinedButton).apply {
-                text = type
-                id = View.generateViewId()
-                setOnClickListener {
-                    binding.toggleClassType.check(this.id)
+        binding.toggleClassType.addOnButtonCheckedListener { _, checkedId, isChecked ->
+            if (isChecked) {
+                when (checkedId) {
+                    R.id.button_flow -> { /* Handle Flow selection */ }
+                    R.id.button_aerial -> { /* Handle Aerial selection */ }
+                    R.id.button_family -> { /* Handle Family selection */ }
                 }
-            }
-            binding.toggleClassType.addView(button)
-            if (index == 0) {
-                binding.toggleClassType.check(button.id)
             }
         }
     }

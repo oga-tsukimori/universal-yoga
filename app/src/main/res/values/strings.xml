@@ -16,10 +16,9 @@
     </string-array>
 
     <string-array name="class_types">
-        <item>Select class type</item>
-        <item>Flow Yoga</item>
-        <item>Aerial Yoga</item>
-        <item>Family Yoga</item>
+        <item>Flow</item>
+        <item>Aerial</item>
+        <item>Family</item>
     </string-array>
         <string name="menu_yoga_class">Yoga Class</string>
         <string name="menu_class_calendar">Class Calendar</string>
@@ -32,5 +31,6 @@
     <string name="price">Price (£)</string>
     <string name="duration_minutes">Duration (minutes)</string>
     <string name="capacity">Capacity</string>
+    <string name="duration">Duration</string>
     <string name="select_date_time">Select Date and Time</string>
 </resources>
