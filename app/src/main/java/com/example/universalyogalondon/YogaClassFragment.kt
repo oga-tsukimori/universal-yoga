@@ -13,12 +13,20 @@ import com.example.universalyogalondon.databinding.FragmentYogaClassBinding
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
+import com.google.android.material.button.MaterialButton
+import android.widget.NumberPicker
+import android.text.InputType
+import android.widget.Spinner
+import com.google.android.material.button.MaterialButtonToggleGroup
 
 class YogaClassFragment : Fragment() {
 
     private var _binding: FragmentYogaClassBinding? = null
     private val binding get() = _binding!!
     private val calendar = Calendar.getInstance()
+
+    private var capacity = 1
+    private var duration = 15
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -31,11 +39,12 @@ class YogaClassFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        setupSpinner()
-
-        binding.buttonDateTime.setOnClickListener {
-            showDateTimePicker()
-        }
+        setupDateTimePicker()
+        setupCapacityButtons()
+        setupDurationButtons()
+        setupPriceField()
+        setupCurrencySelector()
+        setupClassTypeToggle()
 
         binding.buttonSave.setOnClickListener {
             if (validateInput()) {
@@ -45,10 +54,77 @@ class YogaClassFragment : Fragment() {
         }
     }
 
-    private fun setupSpinner() {
+    private fun setupDateTimePicker() {
+        binding.buttonDateTime.setOnClickListener {
+            showDateTimePicker()
+        }
+    }
+
+    private fun setupCapacityButtons() {
+        updateCapacityDisplay()
+        binding.buttonDecreaseCapacity.setOnClickListener {
+            if (capacity > 1) {
+                capacity--
+                updateCapacityDisplay()
+            }
+        }
+        binding.buttonIncreaseCapacity.setOnClickListener {
+            if (capacity < 50) {
+                capacity++
+                updateCapacityDisplay()
+            }
+        }
+    }
+
+    private fun updateCapacityDisplay() {
+        binding.textViewCapacity.text = capacity.toString()
+    }
+
+    private fun setupDurationButtons() {
+        updateDurationDisplay()
+        binding.buttonDecreaseDuration.setOnClickListener {
+            if (duration > 15) {
+                duration -= 15
+                updateDurationDisplay()
+            }
+        }
+        binding.buttonIncreaseDuration.setOnClickListener {
+            if (duration < 180) {
+                duration += 15
+                updateDurationDisplay()
+            }
+        }
+    }
+
+    private fun updateDurationDisplay() {
+        binding.textViewDuration.text = "$duration min"
+    }
+
+    private fun setupPriceField() {
+        binding.editTextPrice.inputType = InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_FLAG_DECIMAL
+    }
+
+    private fun setupCurrencySelector() {
+        val currencies = listOf("£", "$", "€")
+        val adapter = ArrayAdapter(requireContext(), R.layout.item_currency, currencies)
+        binding.spinnerCurrency.adapter = adapter
+    }
+
+    private fun setupClassTypeToggle() {
         val classTypes = resources.getStringArray(R.array.class_types)
-        val typesAdapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, classTypes)
-        binding.spinnerClassType.adapter = typesAdapter
+        classTypes.forEachIndexed { index, type ->
+            val button = MaterialButton(requireContext(), null, com.google.android.material.R.style.Widget_MaterialComponents_Button_OutlinedButton).apply {
+                text = type
+                id = View.generateViewId()
+                setOnClickListener {
+                    binding.toggleClassType.check(this.id)
+                }
+            }
+            binding.toggleClassType.addView(button)
+            if (index == 0) {
+                binding.toggleClassType.check(button.id)
+            }
+        }
     }
 
     private fun validateInput(): Boolean {
@@ -59,13 +135,13 @@ class YogaClassFragment : Fragment() {
             isValid = false
         }
 
-        if (binding.editTextCapacity.text.isNullOrBlank()) {
-            binding.editTextCapacity.error = "Required"
+        if (capacity < 1) {
+            Toast.makeText(context, "Please set a valid capacity", Toast.LENGTH_SHORT).show()
             isValid = false
         }
 
-        if (binding.editTextDuration.text.isNullOrBlank()) {
-            binding.editTextDuration.error = "Required"
+        if (duration < 15) {
+            Toast.makeText(context, "Please set a valid duration", Toast.LENGTH_SHORT).show()
             isValid = false
         }
 
@@ -74,8 +150,8 @@ class YogaClassFragment : Fragment() {
             isValid = false
         }
 
-        if (binding.spinnerClassType.selectedItemPosition == 0) {
-            (binding.spinnerClassType.selectedView as? android.widget.TextView)?.error = "Required"
+        if (binding.toggleClassType.checkedButtonId == View.NO_ID) {
+            Toast.makeText(context, "Please select a class type", Toast.LENGTH_SHORT).show()
             isValid = false
         }
 
