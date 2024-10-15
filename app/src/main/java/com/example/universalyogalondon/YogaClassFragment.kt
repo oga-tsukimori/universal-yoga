@@ -1,5 +1,7 @@
 package com.example.universalyogalondon
 
+import android.app.DatePickerDialog
+import android.app.TimePickerDialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -8,11 +10,15 @@ import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.example.universalyogalondon.databinding.FragmentYogaClassBinding
+import java.text.SimpleDateFormat
+import java.util.Calendar
+import java.util.Locale
 
 class YogaClassFragment : Fragment() {
 
     private var _binding: FragmentYogaClassBinding? = null
     private val binding get() = _binding!!
+    private val calendar = Calendar.getInstance()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -25,7 +31,11 @@ class YogaClassFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        setupSpinners()
+        setupSpinner()
+
+        binding.buttonDateTime.setOnClickListener {
+            showDateTimePicker()
+        }
 
         binding.buttonSave.setOnClickListener {
             if (validateInput()) {
@@ -35,11 +45,7 @@ class YogaClassFragment : Fragment() {
         }
     }
 
-    private fun setupSpinners() {
-        val daysOfWeek = resources.getStringArray(R.array.days_of_week)
-        val daysAdapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, daysOfWeek)
-        binding.spinnerDayOfWeek.adapter = daysAdapter
-
+    private fun setupSpinner() {
         val classTypes = resources.getStringArray(R.array.class_types)
         val typesAdapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, classTypes)
         binding.spinnerClassType.adapter = typesAdapter
@@ -48,13 +54,8 @@ class YogaClassFragment : Fragment() {
     private fun validateInput(): Boolean {
         var isValid = true
 
-        if (binding.spinnerDayOfWeek.selectedItemPosition == 0) {
-            (binding.spinnerDayOfWeek.selectedView as? android.widget.TextView)?.error = "Required"
-            isValid = false
-        }
-
-        if (binding.editTextTime.text.isNullOrBlank()) {
-            binding.editTextTime.error = "Required"
+        if (binding.buttonDateTime.text == getString(R.string.select_date_time)) {
+            Toast.makeText(context, "Please select a date and time", Toast.LENGTH_SHORT).show()
             isValid = false
         }
 
@@ -79,6 +80,42 @@ class YogaClassFragment : Fragment() {
         }
 
         return isValid
+    }
+
+    private fun showDateTimePicker() {
+        val datePickerDialog = DatePickerDialog(
+            requireContext(),
+            { _, year, month, dayOfMonth ->
+                calendar.set(Calendar.YEAR, year)
+                calendar.set(Calendar.MONTH, month)
+                calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth)
+                showTimePicker()
+            },
+            calendar.get(Calendar.YEAR),
+            calendar.get(Calendar.MONTH),
+            calendar.get(Calendar.DAY_OF_MONTH)
+        )
+        datePickerDialog.show()
+    }
+
+    private fun showTimePicker() {
+        val timePickerDialog = TimePickerDialog(
+            requireContext(),
+            { _, hourOfDay, minute ->
+                calendar.set(Calendar.HOUR_OF_DAY, hourOfDay)
+                calendar.set(Calendar.MINUTE, minute)
+                updateDateTimeDisplay()
+            },
+            calendar.get(Calendar.HOUR_OF_DAY),
+            calendar.get(Calendar.MINUTE),
+            false
+        )
+        timePickerDialog.show()
+    }
+
+    private fun updateDateTimeDisplay() {
+        val dateFormat = SimpleDateFormat("EEE, MMM d, yyyy HH:mm", Locale.getDefault())
+        binding.buttonDateTime.text = dateFormat.format(calendar.time)
     }
 
     override fun onDestroyView() {
