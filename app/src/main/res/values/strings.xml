@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Universal Yoga London</string>
+    <string name="nav_header_desc">Yoga class</string>
+    <string name="nav_header_title">Universal Yoga London</string>
+
+    <string-array name="days_of_week">
+        <item>Select day</item>
+        <item>Monday</item>
+        <item>Tuesday</item>
+        <item>Wednesday</item>
+        <item>Thursday</item>
+        <item>Friday</item>
+        <item>Saturday</item>
+        <item>Sunday</item>
+    </string-array>
+
+    <string-array name="class_types">
+        <item>Select class type</item>
+        <item>Flow Yoga</item>
+        <item>Aerial Yoga</item>
+        <item>Family Yoga</item>
+    </string-array>
+        <string name="menu_yoga_class">Yoga Class</string>
+        <string name="menu_class_calendar">Class Calendar</string>
+        <string name="menu_user_profile">User Profile</string>
+    <string name="class_calendar">Class Calendar</string>
+    <string name="user_profile">User Profile</string>
+    <string name="time_e_g_10_00">Time (e.g. 10:00)</string>
+    <string name="save">Save</string>
+    <string name="description_optional">Description (Optional)</string>
+    <string name="price">Price (£)</string>
+    <string name="duration_minutes">Duration (minutes)</string>
+    <string name="capacity">Capacity</string>
+</resources>
