@@ -1,6 +1,10 @@
 data class YogaClass(
-    val dayOfWeek: String,
+    val id: String,
+    val name: String,
+    val instructor: String,
     val time: String,
+    val dayOfWeek: String,
     val duration: Int,
-    val classType: String
+    val level: String,
+    val description: String
 )

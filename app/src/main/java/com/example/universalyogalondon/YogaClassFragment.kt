@@ -20,6 +20,7 @@ import android.text.InputType
 import android.widget.Spinner
 import com.google.android.material.button.MaterialButtonToggleGroup
 import android.widget.AutoCompleteTextView
+import java.util.UUID
 
 class YogaClassFragment : Fragment() {
 
@@ -196,25 +197,22 @@ class YogaClassFragment : Fragment() {
         val dayOfWeek = getDayOfWeek(calendar)
         val time = getFormattedTime(calendar)
         val classType = getSelectedClassType()
-        val price = binding.editTextPrice.text.toString().toFloatOrNull() ?: 0f
-        val currency = (binding.autoCompleteCurrency as? AutoCompleteTextView)?.text.toString()
+        val name = classType // You might want to set a more specific name
+        val instructor = "TBD" // You might want to add an instructor field in your UI
+        val level = "All Levels" // You might want to add a level selector in your UI
+        val description = "A ${classType} yoga class" // You might want to add a description field in your UI
 
         val yogaClass = YogaClass(
-            dayOfWeek = dayOfWeek,
+            id = UUID.randomUUID().toString(), // Generate a unique ID
+            name = name,
+            instructor = instructor,
             time = time,
+            dayOfWeek = dayOfWeek,
             duration = duration,
-            classType = classType,
-            capacity = capacity,
-            price = price,
-            currency = currency
+            level = level,
+            description = description
         )
         YogaClassStorage.addClass(yogaClass)
-        
-        // Notify the ClassCalendarFragment to update
-        (parentFragmentManager.findFragmentByTag("ClassCalendarFragment") as? ClassCalendarFragment)?.updateCalendar()
-        
-        // Navigate back to the ClassCalendarFragment
-        parentFragmentManager.popBackStack()
     }
 
     private fun getDayOfWeek(calendar: Calendar): String {

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="time_slot_width">100dp</dimen>
-    <dimen name="day_cell_width">120dp</dimen>
-    <dimen name="cell_height">80dp</dimen>
+    <!-- Add your dimension resources here if needed -->
+    <!-- For example: -->
+    <!-- <dimen name="activity_horizontal_margin">16dp</dimen> -->
+    <!-- <dimen name="activity_vertical_margin">16dp</dimen> -->
 </resources>
