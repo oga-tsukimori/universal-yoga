@@ -101,7 +101,6 @@ class ClassCalendarFragment : Fragment() {
         cell.layoutParams = TableRow.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f).apply {
             setMargins(2, 2, 2, 2)
         }
-        cell.setBackgroundResource(R.drawable.calendar_cell_background)
         cell.setPadding(8, 8, 8, 8)
 
         val dayView = TextView(context).apply {
@@ -120,6 +119,8 @@ class ClassCalendarFragment : Fragment() {
         val classes = YogaClassStorage.getClassesForDay(dayOfWeek)
 
         if (classes.isNotEmpty()) {
+            cell.setBackgroundResource(R.drawable.calendar_cell_background)
+            
             val classesView = TextView(context).apply {
                 text = classes.joinToString("\n") { it.time }
                 setTextColor(ContextCompat.getColor(context, R.color.purple_500))
@@ -183,7 +184,7 @@ class ClassCalendarFragment : Fragment() {
             layoutParams = TableRow.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f)
             if (isHeader) {
                 setTypeface(null, Typeface.BOLD)
-                setTextColor(ContextCompat.getColor(context, R.color.purple_500))
+                setTextColor(ContextCompat.getColor(context, R.color.pink_500))
                 textSize = 14f
             } else {
                 setTextColor(ContextCompat.getColor(context, R.color.black))
