@@ -37,16 +37,20 @@
                 android:id="@+id/button_date_time"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:backgroundTint="@color/white"
                 android:text="@string/select_date_time"
+                android:textAlignment="center"
+                android:textColor="#F48FB1"
                 app:icon="@drawable/ic_calendar"
                 app:iconGravity="textStart"
-                android:backgroundTint="#FFB6C1"/> <!-- Light pink button -->
+                app:strokeColor="#F6AFBB"
+                app:strokeWidth="1dp" /> <!-- Light pink button -->
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="16dp">
+                android:layout_marginTop="24dp"
+                android:orientation="horizontal">
 
                 <LinearLayout
                     android:layout_width="0dp"
@@ -57,55 +61,55 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/capacity"
-                        android:layout_marginBottom="8dp"/>
+                        android:layout_marginBottom="8dp"
+                        android:text="@string/capacity" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:gravity="center_vertical">
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
 
                         <com.google.android.material.button.MaterialButton
                             android:id="@+id/button_decrease_capacity"
                             android:layout_width="48dp"
                             android:layout_height="48dp"
+                            android:backgroundTint="#FFB6C1"
                             android:insetLeft="0dp"
                             android:insetTop="0dp"
                             android:insetRight="0dp"
                             android:insetBottom="0dp"
-                            app:iconPadding="0dp"
                             android:text="-"
                             android:textSize="20sp"
-                            android:backgroundTint="#FFB6C1"/>
+                            app:iconPadding="0dp" />
 
                         <TextView
                             android:id="@+id/text_view_capacity"
                             android:layout_width="48dp"
                             android:layout_height="wrap_content"
+                            android:gravity="center"
                             android:text="1"
-                            android:textSize="18sp"
-                            android:gravity="center"/>
+                            android:textSize="18sp" />
 
                         <com.google.android.material.button.MaterialButton
                             android:id="@+id/button_increase_capacity"
                             android:layout_width="48dp"
                             android:layout_height="48dp"
+                            android:backgroundTint="#FFB6C1"
                             android:insetLeft="0dp"
                             android:insetTop="0dp"
                             android:insetRight="0dp"
                             android:insetBottom="0dp"
-                            app:iconPadding="0dp"
                             android:text="+"
                             android:textSize="20sp"
-                            android:backgroundTint="#FFB6C1"/>
+                            app:iconPadding="0dp" />
 
                     </LinearLayout>
                 </LinearLayout>
 
                 <View
                     android:layout_width="16dp"
-                    android:layout_height="match_parent"/>
+                    android:layout_height="match_parent" />
 
                 <LinearLayout
                     android:layout_width="0dp"
@@ -122,42 +126,42 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:gravity="center_vertical">
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
 
                         <com.google.android.material.button.MaterialButton
                             android:id="@+id/button_decrease_duration"
                             android:layout_width="48dp"
                             android:layout_height="48dp"
+                            android:backgroundTint="#FFB6C1"
                             android:insetLeft="0dp"
                             android:insetTop="0dp"
                             android:insetRight="0dp"
                             android:insetBottom="0dp"
-                            app:iconPadding="0dp"
                             android:text="-"
                             android:textSize="20sp"
-                            android:backgroundTint="#FFB6C1"/>
+                            app:iconPadding="0dp" />
 
                         <TextView
                             android:id="@+id/text_view_duration"
                             android:layout_width="48dp"
                             android:layout_height="wrap_content"
+                            android:gravity="center"
                             android:text="15"
-                            android:textSize="18sp"
-                            android:gravity="center"/>
+                            android:textSize="18sp" />
 
                         <com.google.android.material.button.MaterialButton
                             android:id="@+id/button_increase_duration"
                             android:layout_width="48dp"
                             android:layout_height="48dp"
+                            android:backgroundTint="#FFB6C1"
                             android:insetLeft="0dp"
                             android:insetTop="0dp"
                             android:insetRight="0dp"
                             android:insetBottom="0dp"
-                            app:iconPadding="0dp"
                             android:text="+"
                             android:textSize="20sp"
-                            android:backgroundTint="#FFB6C1"/>
+                            app:iconPadding="0dp" />
 
                     </LinearLayout>
                 </LinearLayout>
@@ -172,8 +176,8 @@
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="16dp"
                     android:layout_marginTop="16dp"
+                    android:layout_marginEnd="16dp"
                     android:layout_weight="1"
                     app:boxBackgroundColor="#FFFFFF">
 
@@ -205,47 +209,47 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Class Type"
-                android:layout_marginTop="16dp"/>
+                android:layout_marginTop="16dp"
+                android:text="Class Type" />
 
             <com.google.android.material.button.MaterialButtonToggleGroup
                 android:id="@+id/toggle_class_type"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:singleSelection="true"
-                app:selectionRequired="true"
+                android:layout_marginTop="8dp"
                 app:checkedButton="@id/button_flow"
-                android:layout_marginTop="8dp">
+                app:selectionRequired="true"
+                app:singleSelection="true">
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/button_flow"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="Flow"
-                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                     app:strokeColor="#FFB6C1"
-                    app:strokeWidth="1dp"/>
+                    app:strokeWidth="1dp" />
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/button_aerial"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="Aerial"
-                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                     app:strokeColor="#FFB6C1"
-                    app:strokeWidth="1dp"/>
+                    app:strokeWidth="1dp" />
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/button_family"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="Family"
-                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                     app:strokeColor="#FFB6C1"
-                    app:strokeWidth="1dp"/>
+                    app:strokeWidth="1dp" />
             </com.google.android.material.button.MaterialButtonToggleGroup>
 
             <com.google.android.material.button.MaterialButton
@@ -253,10 +257,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
+                android:backgroundTint="#FFB6C1"
                 android:text="@string/save"
                 app:icon="@drawable/ic_save"
-                app:iconGravity="textStart"
-                android:backgroundTint="#FFB6C1"/> <!-- Light pink button -->
+                app:iconGravity="textStart" /> <!-- Light pink button -->
 
         </LinearLayout>
     </androidx.cardview.widget.CardView>
