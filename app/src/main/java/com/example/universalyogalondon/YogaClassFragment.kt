@@ -1,5 +1,6 @@
 package com.example.universalyogalondon
 
+import YogaClass
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.os.Bundle
@@ -49,7 +50,7 @@ class YogaClassFragment : Fragment() {
 
         binding.buttonSave.setOnClickListener {
             if (validateInput()) {
-                // TODO: Save the yoga class details
+                saveYogaClass()
                 Toast.makeText(context, "Yoga class saved successfully", Toast.LENGTH_SHORT).show()
             }
         }
@@ -189,6 +190,51 @@ class YogaClassFragment : Fragment() {
     private fun updateDateTimeDisplay() {
         val dateFormat = SimpleDateFormat("EEE, MMM d, yyyy HH:mm", Locale.getDefault())
         binding.buttonDateTime.text = dateFormat.format(calendar.time)
+    }
+
+    private fun saveYogaClass() {
+        val dayOfWeek = getDayOfWeek(calendar)
+        val time = getFormattedTime(calendar)
+        val classType = getSelectedClassType()
+        val price = binding.editTextPrice.text.toString().toFloatOrNull() ?: 0f
+        val currency = (binding.autoCompleteCurrency as? AutoCompleteTextView)?.text.toString()
+
+        val yogaClass = YogaClass(
+            dayOfWeek = dayOfWeek,
+            time = time,
+            duration = duration,
+            classType = classType,
+            capacity = capacity,
+            price = price,
+            currency = currency
+        )
+        YogaClassStorage.addClass(yogaClass)
+        
+        // Notify the ClassCalendarFragment to update
+        (parentFragmentManager.findFragmentByTag("ClassCalendarFragment") as? ClassCalendarFragment)?.updateCalendar()
+        
+        // Navigate back to the ClassCalendarFragment
+        parentFragmentManager.popBackStack()
+    }
+
+    private fun getDayOfWeek(calendar: Calendar): String {
+        val daysOfWeek = arrayOf("Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday")
+        return daysOfWeek[calendar.get(Calendar.DAY_OF_WEEK) - 1]
+    }
+
+    private fun getFormattedTime(calendar: Calendar): String {
+        val hour = calendar.get(Calendar.HOUR_OF_DAY)
+        val minute = calendar.get(Calendar.MINUTE)
+        return String.format("%02d:%02d", hour, minute)
+    }
+
+    private fun getSelectedClassType(): String {
+        return when (binding.toggleClassType.checkedButtonId) {
+            R.id.button_flow -> "Flow"
+            R.id.button_aerial -> "Aerial"
+            R.id.button_family -> "Family"
+            else -> "Unknown"
+        }
     }
 
     override fun onDestroyView() {

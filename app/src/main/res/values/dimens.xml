@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="time_slot_width">100dp</dimen>
+    <dimen name="day_cell_width">120dp</dimen>
+    <dimen name="cell_height">80dp</dimen>
+</resources>
