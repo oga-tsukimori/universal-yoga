@@ -28,9 +28,19 @@
     <string name="time_e_g_10_00">Time (e.g. 10:00)</string>
     <string name="save">Save</string>
     <string name="description_optional">Description (Optional)</string>
-    <string name="price">Price (£)</string>
+    <string name="price">Price</string>
     <string name="duration_minutes">Duration (minutes)</string>
     <string name="capacity">Capacity</string>
     <string name="duration">Duration</string>
     <string name="select_date_time">Select Date and Time</string>
+
+    <string-array name="currency_descriptions">
+        <item>Pounds (£)</item>
+        <item>US Dollars ($)</item>
+        <item>Thai Baht (฿)</item>
+        <item>Myanmar Kyat (K)</item>
+        <item>Japanese Yen (¥)</item>
+        <item>Singapore Dollar (S$)</item>
+    </string-array>
+    <string name="class_name">Class Name</string>
 </resources>

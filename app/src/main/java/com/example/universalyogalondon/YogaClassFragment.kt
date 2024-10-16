@@ -48,6 +48,7 @@ class YogaClassFragment : Fragment() {
         setupPriceField()
         setupCurrencySelector()
         setupClassTypeToggle()
+        setupClassNameField()
 
         binding.buttonSave.setOnClickListener {
             if (validateInput()) {
@@ -126,6 +127,10 @@ class YogaClassFragment : Fragment() {
         }
     }
 
+    private fun setupClassNameField() {
+        // No additional setup needed for now
+    }
+
     private fun validateInput(): Boolean {
         var isValid = true
 
@@ -151,6 +156,11 @@ class YogaClassFragment : Fragment() {
 
         if (binding.toggleClassType.checkedButtonId == View.NO_ID) {
             Toast.makeText(context, "Please select a class type", Toast.LENGTH_SHORT).show()
+            isValid = false
+        }
+
+        if (binding.editTextClassName.text.isNullOrBlank()) {
+            binding.editTextClassName.error = "Required"
             isValid = false
         }
 
@@ -197,7 +207,7 @@ class YogaClassFragment : Fragment() {
         val dayOfWeek = getDayOfWeek(calendar)
         val time = getFormattedTime(calendar)
         val classType = getSelectedClassType()
-        val name = classType // You might want to set a more specific name
+        val name = binding.editTextClassName.text.toString().trim()
         val instructor = "TBD" // You might want to add an instructor field in your UI
         val level = "All Levels" // You might want to add a level selector in your UI
         val description = "A ${classType} yoga class" // You might want to add a description field in your UI
