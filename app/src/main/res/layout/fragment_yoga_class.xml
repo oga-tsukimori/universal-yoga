@@ -2,266 +2,90 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="#FFF0F5"> <!-- Light pink background -->
+    android:layout_height="match_parent">
 
-    <androidx.cardview.widget.CardView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        app:cardCornerRadius="8dp"
-        app:cardElevation="4dp">
+        android:orientation="vertical"
+        android:padding="16dp">
 
-        <LinearLayout
+        <EditText
+            android:id="@+id/classNameEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="16dp">
+            android:hint="Class Name" />
 
-            <!-- Add this new TextInputLayout for Class Name -->
-            <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
-                app:boxBackgroundColor="#FFFFFF">
+        <Spinner
+            android:id="@+id/dayOfWeekSpinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp" />
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/edit_text_class_name"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Class Name"
-                    android:inputType="text" />
-            </com.google.android.material.textfield.TextInputLayout>
+        <EditText
+            android:id="@+id/instructorEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:hint="Instructor Name" />
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/button_date_time"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:backgroundTint="@color/white"
-                android:text="@string/select_date_time"
-                android:textAlignment="center"
-                android:textColor="#F48FB1"
-                app:icon="@drawable/ic_calendar"
-                app:iconGravity="textStart"
-                app:strokeColor="#F6AFBB"
-                app:strokeWidth="1dp" /> <!-- Light pink button -->
+        <EditText
+            android:id="@+id/durationEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:hint="Duration (minutes)"
+            android:inputType="number" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
-                android:orientation="horizontal">
+        <com.google.android.material.button.MaterialButtonToggleGroup
+            android:id="@+id/classTypeToggleGroup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            app:singleSelection="true">
 
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="8dp"
-                        android:text="@string/capacity" />
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="center_vertical"
-                        android:orientation="horizontal">
-
-                        <com.google.android.material.button.MaterialButton
-                            android:id="@+id/button_decrease_capacity"
-                            android:layout_width="48dp"
-                            android:layout_height="48dp"
-                            android:backgroundTint="#FFB6C1"
-                            android:insetLeft="0dp"
-                            android:insetTop="0dp"
-                            android:insetRight="0dp"
-                            android:insetBottom="0dp"
-                            android:text="-"
-                            android:textSize="20sp"
-                            app:iconPadding="0dp" />
-
-                        <TextView
-                            android:id="@+id/text_view_capacity"
-                            android:layout_width="48dp"
-                            android:layout_height="wrap_content"
-                            android:gravity="center"
-                            android:text="1"
-                            android:textSize="18sp" />
-
-                        <com.google.android.material.button.MaterialButton
-                            android:id="@+id/button_increase_capacity"
-                            android:layout_width="48dp"
-                            android:layout_height="48dp"
-                            android:backgroundTint="#FFB6C1"
-                            android:insetLeft="0dp"
-                            android:insetTop="0dp"
-                            android:insetRight="0dp"
-                            android:insetBottom="0dp"
-                            android:text="+"
-                            android:textSize="20sp"
-                            app:iconPadding="0dp" />
-
-                    </LinearLayout>
-                </LinearLayout>
-
-                <View
-                    android:layout_width="16dp"
-                    android:layout_height="match_parent" />
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="8dp"
-                        android:text="@string/duration" />
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="center_vertical"
-                        android:orientation="horizontal">
-
-                        <com.google.android.material.button.MaterialButton
-                            android:id="@+id/button_decrease_duration"
-                            android:layout_width="48dp"
-                            android:layout_height="48dp"
-                            android:backgroundTint="#FFB6C1"
-                            android:insetLeft="0dp"
-                            android:insetTop="0dp"
-                            android:insetRight="0dp"
-                            android:insetBottom="0dp"
-                            android:text="-"
-                            android:textSize="20sp"
-                            app:iconPadding="0dp" />
-
-                        <TextView
-                            android:id="@+id/text_view_duration"
-                            android:layout_width="48dp"
-                            android:layout_height="wrap_content"
-                            android:gravity="center"
-                            android:text="15"
-                            android:textSize="18sp" />
-
-                        <com.google.android.material.button.MaterialButton
-                            android:id="@+id/button_increase_duration"
-                            android:layout_width="48dp"
-                            android:layout_height="48dp"
-                            android:backgroundTint="#FFB6C1"
-                            android:insetLeft="0dp"
-                            android:insetTop="0dp"
-                            android:insetRight="0dp"
-                            android:insetBottom="0dp"
-                            android:text="+"
-                            android:textSize="20sp"
-                            app:iconPadding="0dp" />
-
-                    </LinearLayout>
-                </LinearLayout>
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="350dp"
-                android:layout_height="93dp"
-                android:layout_marginTop="16dp"
-                android:orientation="horizontal">
-
-                <com.google.android.material.textfield.TextInputLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginEnd="16dp"
-                    android:layout_weight="1"
-                    app:boxBackgroundColor="#FFFFFF">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/edit_text_price"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:hint="@string/price"
-                        android:inputType="numberDecimal" />
-                </com.google.android.material.textfield.TextInputLayout>
-
-                <com.google.android.material.textfield.TextInputLayout
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginEnd="8dp">
-
-                    <AutoCompleteTextView
-                        android:id="@+id/auto_complete_currency"
-                        android:layout_width="wrap_content"
-                        android:layout_height="54dp"
-                        android:inputType="none"
-                        android:text="£" />
-
-                </com.google.android.material.textfield.TextInputLayout>
-            </LinearLayout>
-
-            <TextView
+            <Button
+                android:id="@+id/flowButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:text="Class Type" />
+                android:text="Flow" />
 
-            <com.google.android.material.button.MaterialButtonToggleGroup
-                android:id="@+id/toggle_class_type"
-                android:layout_width="match_parent"
+            <Button
+                android:id="@+id/aerialButton"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                app:checkedButton="@id/button_flow"
-                app:selectionRequired="true"
-                app:singleSelection="true">
+                android:text="Aerial" />
 
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/button_flow"
-                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Flow"
-                    app:strokeColor="#FFB6C1"
-                    app:strokeWidth="1dp" />
-
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/button_aerial"
-                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Aerial"
-                    app:strokeColor="#FFB6C1"
-                    app:strokeWidth="1dp" />
-
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/button_family"
-                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Family"
-                    app:strokeColor="#FFB6C1"
-                    app:strokeWidth="1dp" />
-            </com.google.android.material.button.MaterialButtonToggleGroup>
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/button_save"
-                android:layout_width="match_parent"
+            <Button
+                android:id="@+id/familyButton"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:backgroundTint="#FFB6C1"
-                android:text="@string/save"
-                app:icon="@drawable/ic_save"
-                app:iconGravity="textStart" /> <!-- Light pink button -->
+                android:text="Family" />
 
-        </LinearLayout>
-    </androidx.cardview.widget.CardView>
+        </com.google.android.material.button.MaterialButtonToggleGroup>
+
+        <TimePicker
+            android:id="@+id/timePicker"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:timePickerMode="spinner" />
+
+        <EditText
+            android:id="@+id/descriptionEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:hint="Description"
+            android:inputType="textMultiLine"
+            android:lines="3" />
+
+        <Button
+            android:id="@+id/saveButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Save Class" />
+
+    </LinearLayout>
 </ScrollView>

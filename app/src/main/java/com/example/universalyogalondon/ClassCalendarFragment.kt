@@ -119,20 +119,9 @@ class ClassCalendarFragment : Fragment() {
         val classes = YogaClassStorage.getClassesForDay(dayOfWeek)
 
         if (classes.isNotEmpty()) {
+            // Add pink background for days with classes
             cell.setBackgroundResource(R.drawable.calendar_cell_background)
             
-            val classesView = TextView(context).apply {
-                text = classes.joinToString("\n") { it.time }
-                setTextColor(ContextCompat.getColor(context, R.color.purple_500))
-                textSize = 12f
-                gravity = Gravity.BOTTOM or Gravity.CENTER_HORIZONTAL
-                layoutParams = FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT).apply {
-                    gravity = Gravity.BOTTOM or Gravity.CENTER_HORIZONTAL
-                    setMargins(0, 24, 0, 4)
-                }
-            }
-            cell.addView(classesView)
-
             // Add a small indicator dot
             val indicatorDot = View(context).apply {
                 layoutParams = FrameLayout.LayoutParams(8, 8).apply {
@@ -164,7 +153,9 @@ class ClassCalendarFragment : Fragment() {
         val classes = YogaClassStorage.getClassesForDay(dayOfWeek)
 
         val message = if (classes.isNotEmpty()) {
-            classes.joinToString("\n") { "${it.time} - ${it.name} (${it.duration} min)" }
+            classes.joinToString("\n") { yogaClass ->
+                "${yogaClass.time} - ${yogaClass.name} (${yogaClass.duration} min)"
+            }
         } else {
             "No classes scheduled for this day"
         }

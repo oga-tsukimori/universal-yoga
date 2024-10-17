@@ -25,7 +25,7 @@
                 android:id="@+id/buttonPreviousMonth"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
-                android:src="@drawable/ic_chevron_left"
+                android:src="@drawable/ic_arrow_left"
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:contentDescription="Previous month" />
 
@@ -43,7 +43,7 @@
                 android:id="@+id/buttonNextMonth"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
-                android:src="@drawable/ic_chevron_right"
+                android:src="@drawable/ic_arrow_right"
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:contentDescription="Next month" />
 

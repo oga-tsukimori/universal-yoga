@@ -1,3 +1,5 @@
+package com.example.universalyogalondon
+
 data class YogaClass(
     val id: String,
     val name: String,
