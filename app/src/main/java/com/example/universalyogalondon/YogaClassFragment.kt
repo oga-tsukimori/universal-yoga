@@ -4,17 +4,20 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.example.universalyogalondon.databinding.FragmentYogaClassBinding
+import com.google.android.material.datepicker.MaterialDatePicker
+import com.google.android.material.timepicker.MaterialTimePicker
+import com.google.android.material.timepicker.TimeFormat
+import java.text.SimpleDateFormat
 import java.util.*
-
 
 class YogaClassFragment : Fragment() {
 
     private var _binding: FragmentYogaClassBinding? = null
     private val binding get() = _binding!!
+    private val calendar = Calendar.getInstance()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -27,20 +30,58 @@ class YogaClassFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        setupSpinner()
+        setupDatePicker()
+        setupTimePicker()
         setupSaveButton()
     }
 
-    private fun setupSpinner() {
-        ArrayAdapter.createFromResource(
-            requireContext(),
-            R.array.days_of_week,
-            android.R.layout.simple_spinner_item
-        ).also { adapter ->
-            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-            binding.dayOfWeekSpinner.adapter = adapter
+    private fun setupDatePicker() {
+        binding.datePickerButton.setOnClickListener {
+            val datePicker = MaterialDatePicker.Builder.datePicker()
+                .setTitleText("Select date")
+                .setSelection(MaterialDatePicker.todayInUtcMilliseconds())
+                .setTheme(R.style.ThemeMaterialCalendar)
+                .build()
+
+            datePicker.addOnPositiveButtonClickListener { selection ->
+                calendar.timeInMillis = selection
+                updateDateButtonText()
+            }
+
+            datePicker.show(childFragmentManager, "DATE_PICKER")
         }
+        updateDateButtonText()
+    }
+
+    private fun setupTimePicker() {
+        binding.timePickerButton.setOnClickListener {
+            val timePicker = MaterialTimePicker.Builder()
+                .setTimeFormat(TimeFormat.CLOCK_12H)
+                .setHour(calendar.get(Calendar.HOUR_OF_DAY))
+                .setMinute(calendar.get(Calendar.MINUTE))
+                .setTitleText("Select time")
+                .setTheme(R.style.ThemeMaterialTimePicker)
+                .build()
+
+            timePicker.addOnPositiveButtonClickListener {
+                calendar.set(Calendar.HOUR_OF_DAY, timePicker.hour)
+                calendar.set(Calendar.MINUTE, timePicker.minute)
+                updateTimeButtonText()
+            }
+
+            timePicker.show(childFragmentManager, "TIME_PICKER")
+        }
+        updateTimeButtonText()
+    }
+
+    private fun updateDateButtonText() {
+        val dateFormat = SimpleDateFormat("MMM dd, yyyy", Locale.getDefault())
+        binding.datePickerButton.text = dateFormat.format(calendar.time)
+    }
+
+    private fun updateTimeButtonText() {
+        val timeFormat = SimpleDateFormat("hh:mm a", Locale.getDefault())
+        binding.timePickerButton.text = timeFormat.format(calendar.time)
     }
 
     private fun setupSaveButton() {
@@ -51,7 +92,6 @@ class YogaClassFragment : Fragment() {
                 return@setOnClickListener
             }
 
-            val dayOfWeek = binding.dayOfWeekSpinner.selectedItem.toString()
             val instructor = binding.instructorEditText.text.toString()
             val duration = binding.durationEditText.text.toString().toIntOrNull() ?: 0
             val level = when (binding.classTypeToggleGroup.checkedButtonId) {
@@ -61,13 +101,16 @@ class YogaClassFragment : Fragment() {
                 else -> "Unknown"
             }
 
-            val time = String.format("%02d:%02d", binding.timePicker.hour, binding.timePicker.minute)
+            val time = SimpleDateFormat("HH:mm", Locale.getDefault()).format(calendar.time)
+            val date = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(calendar.time)
+            val dayOfWeek = SimpleDateFormat("EEEE", Locale.getDefault()).format(calendar.time)
 
             val yogaClass = YogaClass(
                 id = UUID.randomUUID().toString(),
                 name = className,
                 instructor = instructor,
                 time = time,
+                date = date,
                 dayOfWeek = dayOfWeek,
                 duration = duration,
                 level = level,
@@ -85,10 +128,11 @@ class YogaClassFragment : Fragment() {
         binding.instructorEditText.text?.clear()
         binding.durationEditText.text?.clear()
         binding.descriptionEditText.text?.clear()
-        binding.dayOfWeekSpinner.setSelection(0)
         binding.classTypeToggleGroup.check(R.id.flowButton)
-        binding.timePicker.hour = 0
-        binding.timePicker.minute = 0
+        
+        calendar.time = Date() // Reset to current date and time
+        updateDateButtonText()
+        updateTimeButtonText()
     }
 
     override fun onDestroyView() {

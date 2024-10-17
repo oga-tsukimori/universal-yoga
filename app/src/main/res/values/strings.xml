@@ -43,4 +43,6 @@
     </string-array>
     <string name="previous_month">Previous month</string>
     <string name="next_month">Next month</string>
+    <string name="select_date">Select Date</string>
+    <string name="select_time">Select Time</string>
 </resources>

@@ -16,12 +16,6 @@
             android:layout_height="wrap_content"
             android:hint="Class Name" />
 
-        <Spinner
-            android:id="@+id/dayOfWeekSpinner"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp" />
-
         <EditText
             android:id="@+id/instructorEditText"
             android:layout_width="match_parent"
@@ -64,12 +58,21 @@
 
         </com.google.android.material.button.MaterialButtonToggleGroup>
 
-        <TimePicker
-            android:id="@+id/timePicker"
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/datePickerButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:timePickerMode="spinner" />
+            android:text="@string/select_date"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/timePickerButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/select_time"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton" />
 
         <EditText
             android:id="@+id/descriptionEditText"
