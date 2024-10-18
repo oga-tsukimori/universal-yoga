@@ -18,6 +18,9 @@
         <item>Flow</item>
         <item>Aerial</item>
         <item>Family</item>
+        <item>Hatha</item>
+        <item>Vinyasa</item>
+        <item>Yin</item>
     </string-array>
         <string name="menu_yoga_class">Yoga Class</string>
         <string name="menu_class_calendar">Class Calendar</string>

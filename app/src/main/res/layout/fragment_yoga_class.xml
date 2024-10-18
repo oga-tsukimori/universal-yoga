@@ -31,32 +31,42 @@
             android:hint="Duration (minutes)"
             android:inputType="number" />
 
-        <com.google.android.material.button.MaterialButtonToggleGroup
-            android:id="@+id/classTypeToggleGroup"
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="Class Types"
             android:layout_marginTop="16dp"
-            app:singleSelection="true">
+            android:textStyle="bold" />
+
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/classTypeChipGroup"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:chipSpacingHorizontal="8dp"
+            app:chipSpacingVertical="8dp"
+            app:selectionRequired="false"
+            app:singleSelection="false" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="8dp">
+
+            <EditText
+                android:id="@+id/customTypeEditText"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="Custom Type" />
 
             <Button
-                android:id="@+id/flowButton"
+                android:id="@+id/addCustomTypeButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Flow" />
+                android:text="Add" />
 
-            <Button
-                android:id="@+id/aerialButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Aerial" />
-
-            <Button
-                android:id="@+id/familyButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Family" />
-
-        </com.google.android.material.button.MaterialButtonToggleGroup>
+        </LinearLayout>
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/datePickerButton"

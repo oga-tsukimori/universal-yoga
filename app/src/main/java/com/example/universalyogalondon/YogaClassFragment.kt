@@ -12,6 +12,8 @@ import com.google.android.material.timepicker.MaterialTimePicker
 import com.google.android.material.timepicker.TimeFormat
 import java.text.SimpleDateFormat
 import java.util.*
+import com.google.android.material.chip.Chip
+import com.google.android.material.chip.ChipGroup
 
 class YogaClassFragment : Fragment() {
 
@@ -32,6 +34,7 @@ class YogaClassFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         setupDatePicker()
         setupTimePicker()
+        setupClassTypeChips()
         setupSaveButton()
     }
 
@@ -84,6 +87,34 @@ class YogaClassFragment : Fragment() {
         binding.timePickerButton.text = timeFormat.format(calendar.time)
     }
 
+    private fun setupClassTypeChips() {
+        val classTypes = resources.getStringArray(R.array.class_types)
+        classTypes.forEach { type ->
+            val chip = Chip(context).apply {
+                text = type
+                isCheckable = true
+                setChipBackgroundColorResource(R.color.chip_background_color)
+                setTextColor(resources.getColorStateList(R.color.chip_text_color, null))
+            }
+            binding.classTypeChipGroup.addView(chip)
+        }
+
+        binding.addCustomTypeButton.setOnClickListener {
+            val customType = binding.customTypeEditText.text.toString().trim()
+            if (customType.isNotEmpty()) {
+                val chip = Chip(context).apply {
+                    text = customType
+                    isCheckable = true
+                    isChecked = true
+                    setChipBackgroundColorResource(R.color.chip_background_color)
+                    setTextColor(resources.getColorStateList(R.color.chip_text_color, null))
+                }
+                binding.classTypeChipGroup.addView(chip)
+                binding.customTypeEditText.text?.clear()
+            }
+        }
+    }
+
     private fun setupSaveButton() {
         binding.saveButton.setOnClickListener {
             val className = binding.classNameEditText.text.toString()
@@ -94,11 +125,8 @@ class YogaClassFragment : Fragment() {
 
             val instructor = binding.instructorEditText.text.toString()
             val duration = binding.durationEditText.text.toString().toIntOrNull() ?: 0
-            val level = when (binding.classTypeToggleGroup.checkedButtonId) {
-                R.id.flowButton -> "Flow"
-                R.id.aerialButton -> "Aerial"
-                R.id.familyButton -> "Family"
-                else -> "Unknown"
+            val selectedTypes = binding.classTypeChipGroup.checkedChipIds.map { chipId ->
+                (binding.classTypeChipGroup.findViewById<Chip>(chipId)).text.toString()
             }
 
             val time = SimpleDateFormat("HH:mm", Locale.getDefault()).format(calendar.time)
@@ -113,7 +141,7 @@ class YogaClassFragment : Fragment() {
                 date = date,
                 dayOfWeek = dayOfWeek,
                 duration = duration,
-                level = level,
+                level = selectedTypes.joinToString(", "),
                 description = binding.descriptionEditText.text.toString()
             )
 
@@ -128,8 +156,8 @@ class YogaClassFragment : Fragment() {
         binding.instructorEditText.text?.clear()
         binding.durationEditText.text?.clear()
         binding.descriptionEditText.text?.clear()
-        binding.classTypeToggleGroup.check(R.id.flowButton)
-        
+        binding.classTypeChipGroup.clearCheck()
+        binding.customTypeEditText.text?.clear()
         calendar.time = Date() // Reset to current date and time
         updateDateButtonText()
         updateTimeButtonText()

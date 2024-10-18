@@ -2,13 +2,13 @@
     <!-- Base application theme -->
     <style name="Theme.UniversalYogaLondon" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Primary brand color -->
-        <item name="colorPrimary">#FFB6C1</item> <!-- Light pink -->
-        <item name="colorPrimaryVariant">#FF69B4</item> <!-- Darker pink for status bar -->
+        <item name="colorPrimary">@color/pink_500</item>
+        <item name="colorPrimaryVariant">@color/pink_700</item>
         <item name="colorOnPrimary">@color/white</item>
         <!-- Secondary brand color -->
-        <item name="colorSecondary">#FF69B4</item> <!-- Darker pink -->
-        <item name="colorSecondaryVariant">#FF1493</item> <!-- Even darker pink -->
-        <item name="colorOnSecondary">@color/white</item>
+        <item name="colorSecondary">@color/pink_200</item>
+        <item name="colorSecondaryVariant">@color/pink_500</item>
+        <item name="colorOnSecondary">@color/black</item>
         <!-- Status bar color -->
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
         <!-- Custom colors -->
