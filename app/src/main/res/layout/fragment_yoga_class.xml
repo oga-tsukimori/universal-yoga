@@ -16,13 +16,6 @@
             android:layout_height="wrap_content"
             android:hint="Course Name" />
 
-<!--        <EditText-->
-<!--            android:id="@+id/instructorEditText"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_marginTop="16dp"-->
-<!--            android:hint="Instructor Name" />-->
-
         <EditText
             android:id="@+id/durationEditText"
             android:layout_width="match_parent"
@@ -34,8 +27,8 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Class Types"
             android:layout_marginTop="16dp"
+            android:text="Class Types"
             android:textStyle="bold" />
 
         <com.google.android.material.chip.ChipGroup
@@ -50,8 +43,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="8dp">
+            android:layout_marginTop="8dp"
+            android:orientation="horizontal">
 
             <EditText
                 android:id="@+id/customTypeEditText"
@@ -68,29 +61,21 @@
 
         </LinearLayout>
 
-<!--        <com.google.android.material.button.MaterialButton-->
-<!--            android:id="@+id/datePickerButton"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_marginTop="16dp"-->
-<!--            android:text="@string/select_date"-->
-<!--            style="@style/Widget.MaterialComponents.Button.OutlinedButton" />-->
-
         <com.google.android.material.button.MaterialButton
             android:id="@+id/timePickerButton"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:text="@string/select_time"
-            style="@style/Widget.MaterialComponents.Button.OutlinedButton" />
+            android:text="@string/select_time" />
 
         <Button
             android:id="@+id/dateRangePickerButton"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:text="Select Course Duration"
-            style="@style/Widget.MaterialComponents.Button.OutlinedButton" />
+            android:text="Select Course Duration" />
 
         <EditText
             android:id="@+id/descriptionEditText"
@@ -101,14 +86,36 @@
             android:inputType="textMultiLine"
             android:lines="3" />
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="16dp">
+
+            <Button
+                android:id="@+id/button"
+                android:layout_width="42dp"
+                android:layout_height="wrap_content"
+                android:text="+" />
+
+            <TextView
+                android:id="@+id/nameOfClass"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginLeft="16dp"
+                android:text="Add class" />
+
+        </LinearLayout>
+
         <Button
             android:id="@+id/saveButton"
+            style="@style/Widget.App.Button.Save"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:text="Save Course"
-            style="@style/Widget.App.Button.Save"
-            android:enabled="false" />
+            android:enabled="false"
+            android:text="Save Course" />
 
     </LinearLayout>
 </ScrollView>
