@@ -1,7 +1,6 @@
 package com.example.universalyogalondon
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
@@ -15,9 +14,15 @@ import com.google.android.material.timepicker.TimeFormat
 import java.text.SimpleDateFormat
 import java.util.*
 import com.google.android.material.chip.Chip
-import com.google.android.material.chip.ChipGroup
 import android.text.Editable
 import android.text.TextWatcher
+import android.app.AlertDialog
+import android.view.LayoutInflater
+import android.widget.EditText
+import android.widget.Button
+import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.universalyogalondon.ClassInfo
 
 class YogaClassFragment : Fragment() {
 
@@ -26,6 +31,9 @@ class YogaClassFragment : Fragment() {
     private val calendar = Calendar.getInstance()
     private var startDate: Long = 0
     private var endDate: Long = 0
+
+    private val classes = mutableListOf<ClassInfo>()
+    private lateinit var classAdapter: ClassAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -38,11 +46,12 @@ class YogaClassFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setupTimePicker()
         setupDateRangePicker()
         setupClassTypeChips()
         setupSaveButton()
         setupInputValidation()
+        setupAddClassButton()
+        setupClassesRecyclerView()
     }
 
     private fun setupInputValidation() {
@@ -56,45 +65,16 @@ class YogaClassFragment : Fragment() {
 
         binding.classNameEditText.addTextChangedListener(textWatcher)
         binding.durationEditText.addTextChangedListener(textWatcher)
-        binding.timePickerButton.addTextChangedListener(textWatcher)
         binding.dateRangePickerButton.addTextChangedListener(textWatcher)
     }
 
     private fun validateInputs() {
         val isValid = binding.classNameEditText.text.isNotBlank() &&
                 binding.durationEditText.text.isNotBlank() &&
-                binding.timePickerButton.text != getString(R.string.select_time) &&
                 binding.dateRangePickerButton.text != "Select Course Duration" &&
                 binding.classTypeChipGroup.checkedChipIds.isNotEmpty()
 
         binding.saveButton.isEnabled = isValid
-    }
-
-    private fun setupTimePicker() {
-        binding.timePickerButton.setOnClickListener {
-            val timePicker = MaterialTimePicker.Builder()
-                .setTimeFormat(TimeFormat.CLOCK_12H)
-                .setHour(calendar.get(Calendar.HOUR_OF_DAY))
-                .setMinute(calendar.get(Calendar.MINUTE))
-                .setTitleText("Select time")
-                .setTheme(R.style.ThemeMaterialTimePicker)
-                .build()
-
-            timePicker.addOnPositiveButtonClickListener {
-                calendar.set(Calendar.HOUR_OF_DAY, timePicker.hour)
-                calendar.set(Calendar.MINUTE, timePicker.minute)
-                updateTimeButtonText()
-                validateInputs()
-            }
-
-            timePicker.show(childFragmentManager, "TIME_PICKER")
-        }
-        updateTimeButtonText()
-    }
-
-    private fun updateTimeButtonText() {
-        val timeFormat = SimpleDateFormat("hh:mm a", Locale.getDefault())
-        binding.timePickerButton.text = timeFormat.format(calendar.time)
     }
 
     private fun setupDateRangePicker() {
@@ -196,20 +176,74 @@ class YogaClassFragment : Fragment() {
 
     private fun clearInputs() {
         binding.classNameEditText.text?.clear()
-        // Remove the line clearing instructorEditText
         binding.durationEditText.text?.clear()
         binding.descriptionEditText.text?.clear()
         binding.classTypeChipGroup.clearCheck()
         binding.customTypeEditText.text?.clear()
         calendar.time = Date() // Reset to current date and time
-        updateTimeButtonText()
         startDate = 0
         endDate = 0
         binding.dateRangePickerButton.text = "Select Course Duration"
     }
 
+    private fun setupAddClassButton() {
+        binding.button.setOnClickListener {
+            showAddClassDialog()
+        }
+    }
+
+    private fun showAddClassDialog() {
+        val dialogView = LayoutInflater.from(requireContext()).inflate(R.layout.dialog_add_class, null)
+        val classNameEditText = dialogView.findViewById<EditText>(R.id.classNameEditText)
+        val teacherNameEditText = dialogView.findViewById<EditText>(R.id.teacherNameEditText)
+        val datePickerButton = dialogView.findViewById<Button>(R.id.datePickerButton)
+
+        var selectedDate: Long = 0
+
+        datePickerButton.setOnClickListener {
+            val datePicker = MaterialDatePicker.Builder.datePicker()
+                .setTitleText("Select Class Date")
+                .setSelection(MaterialDatePicker.todayInUtcMilliseconds())
+                .build()
+
+            datePicker.addOnPositiveButtonClickListener { selection ->
+                selectedDate = selection
+                val dateFormat = SimpleDateFormat("MMM dd, yyyy", Locale.getDefault())
+                datePickerButton.text = dateFormat.format(Date(selectedDate))
+            }
+
+            datePicker.show(childFragmentManager, "DATE_PICKER")
+        }
+
+        AlertDialog.Builder(requireContext())
+            .setTitle("Add New Class")
+            .setView(dialogView)
+            .setPositiveButton("Add") { _, _ ->
+                val className = classNameEditText.text.toString()
+                val teacherName = teacherNameEditText.text.toString()
+                if (className.isNotBlank() && teacherName.isNotBlank() && selectedDate != 0L) {
+                    val newClass = ClassInfo(className, teacherName, selectedDate)
+                    classes.add(newClass)
+                    classAdapter.notifyItemInserted(classes.size - 1)
+                    Toast.makeText(context, "New class added", Toast.LENGTH_SHORT).show()
+                } else {
+                    Toast.makeText(context, "Please fill all fields", Toast.LENGTH_SHORT).show()
+                }
+            }
+            .setNegativeButton("Cancel", null)
+            .show()
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    private fun setupClassesRecyclerView() {
+        classAdapter = ClassAdapter(classes)
+        binding.classesRecyclerView.apply {
+            layoutManager = LinearLayoutManager(context)
+            adapter = classAdapter
+        }
     }
 }
