@@ -16,6 +16,8 @@ import java.text.SimpleDateFormat
 import java.util.*
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
+import android.text.Editable
+import android.text.TextWatcher
 
 class YogaClassFragment : Fragment() {
 
@@ -40,6 +42,32 @@ class YogaClassFragment : Fragment() {
         setupDateRangePicker()
         setupClassTypeChips()
         setupSaveButton()
+        setupInputValidation()
+    }
+
+    private fun setupInputValidation() {
+        val textWatcher = object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+            override fun afterTextChanged(s: Editable?) {
+                validateInputs()
+            }
+        }
+
+        binding.classNameEditText.addTextChangedListener(textWatcher)
+        binding.durationEditText.addTextChangedListener(textWatcher)
+        binding.timePickerButton.addTextChangedListener(textWatcher)
+        binding.dateRangePickerButton.addTextChangedListener(textWatcher)
+    }
+
+    private fun validateInputs() {
+        val isValid = binding.classNameEditText.text.isNotBlank() &&
+                binding.durationEditText.text.isNotBlank() &&
+                binding.timePickerButton.text != getString(R.string.select_time) &&
+                binding.dateRangePickerButton.text != "Select Course Duration" &&
+                binding.classTypeChipGroup.checkedChipIds.isNotEmpty()
+
+        binding.saveButton.isEnabled = isValid
     }
 
     private fun setupTimePicker() {
@@ -56,6 +84,7 @@ class YogaClassFragment : Fragment() {
                 calendar.set(Calendar.HOUR_OF_DAY, timePicker.hour)
                 calendar.set(Calendar.MINUTE, timePicker.minute)
                 updateTimeButtonText()
+                validateInputs()
             }
 
             timePicker.show(childFragmentManager, "TIME_PICKER")
@@ -84,6 +113,7 @@ class YogaClassFragment : Fragment() {
                 startDate = selection.first
                 endDate = selection.second
                 updateDateRangeButtonText()
+                validateInputs()
             }
 
             dateRangePicker.show(childFragmentManager, "DATE_RANGE_PICKER")
@@ -105,6 +135,7 @@ class YogaClassFragment : Fragment() {
                 isCheckable = true
                 setChipBackgroundColorResource(R.color.chip_background_color)
                 setTextColor(resources.getColorStateList(R.color.chip_text_color, null))
+                setOnCheckedChangeListener { _, _ -> validateInputs() }
             }
             binding.classTypeChipGroup.addView(chip)
         }
@@ -118,9 +149,11 @@ class YogaClassFragment : Fragment() {
                     isChecked = true
                     setChipBackgroundColorResource(R.color.chip_background_color)
                     setTextColor(resources.getColorStateList(R.color.chip_text_color, null))
+                    setOnCheckedChangeListener { _, _ -> validateInputs() }
                 }
                 binding.classTypeChipGroup.addView(chip)
                 binding.customTypeEditText.text?.clear()
+                validateInputs()
             }
         }
     }
