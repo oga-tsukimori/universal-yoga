@@ -8,6 +8,8 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.example.universalyogalondon.databinding.FragmentYogaClassBinding
 import com.google.android.material.datepicker.MaterialDatePicker
+import com.google.android.material.datepicker.CalendarConstraints
+import com.google.android.material.datepicker.DateValidatorPointForward
 import com.google.android.material.timepicker.MaterialTimePicker
 import com.google.android.material.timepicker.TimeFormat
 import java.text.SimpleDateFormat
@@ -20,6 +22,8 @@ class YogaClassFragment : Fragment() {
     private var _binding: FragmentYogaClassBinding? = null
     private val binding get() = _binding!!
     private val calendar = Calendar.getInstance()
+    private var startDate: Long = 0
+    private var endDate: Long = 0
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -32,28 +36,10 @@ class YogaClassFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setupDatePicker()
         setupTimePicker()
+        setupDateRangePicker()
         setupClassTypeChips()
         setupSaveButton()
-    }
-
-    private fun setupDatePicker() {
-        binding.datePickerButton.setOnClickListener {
-            val datePicker = MaterialDatePicker.Builder.datePicker()
-                .setTitleText("Select date")
-                .setSelection(MaterialDatePicker.todayInUtcMilliseconds())
-                .setTheme(R.style.ThemeMaterialCalendar)
-                .build()
-
-            datePicker.addOnPositiveButtonClickListener { selection ->
-                calendar.timeInMillis = selection
-                updateDateButtonText()
-            }
-
-            datePicker.show(childFragmentManager, "DATE_PICKER")
-        }
-        updateDateButtonText()
     }
 
     private fun setupTimePicker() {
@@ -77,14 +63,38 @@ class YogaClassFragment : Fragment() {
         updateTimeButtonText()
     }
 
-    private fun updateDateButtonText() {
-        val dateFormat = SimpleDateFormat("MMM dd, yyyy", Locale.getDefault())
-        binding.datePickerButton.text = dateFormat.format(calendar.time)
-    }
-
     private fun updateTimeButtonText() {
         val timeFormat = SimpleDateFormat("hh:mm a", Locale.getDefault())
         binding.timePickerButton.text = timeFormat.format(calendar.time)
+    }
+
+    private fun setupDateRangePicker() {
+        binding.dateRangePickerButton.setOnClickListener {
+            val constraintsBuilder = CalendarConstraints.Builder()
+                .setValidator(DateValidatorPointForward.now())
+
+            val dateRangePicker = MaterialDatePicker.Builder.dateRangePicker()
+                .setTitleText("Select Course Duration")
+                .setSelection(androidx.core.util.Pair(MaterialDatePicker.todayInUtcMilliseconds(), MaterialDatePicker.todayInUtcMilliseconds()))
+                .setCalendarConstraints(constraintsBuilder.build())
+                .setTheme(R.style.ThemeMaterialCalendar)
+                .build()
+
+            dateRangePicker.addOnPositiveButtonClickListener { selection ->
+                startDate = selection.first
+                endDate = selection.second
+                updateDateRangeButtonText()
+            }
+
+            dateRangePicker.show(childFragmentManager, "DATE_RANGE_PICKER")
+        }
+    }
+
+    private fun updateDateRangeButtonText() {
+        val dateFormat = SimpleDateFormat("MMM dd, yyyy", Locale.getDefault())
+        val startDateStr = dateFormat.format(Date(startDate))
+        val endDateStr = dateFormat.format(Date(endDate))
+        binding.dateRangePickerButton.text = "$startDateStr - $endDateStr"
     }
 
     private fun setupClassTypeChips() {
@@ -119,26 +129,26 @@ class YogaClassFragment : Fragment() {
         binding.saveButton.setOnClickListener {
             val className = binding.classNameEditText.text.toString()
             if (className.isBlank()) {
-                Toast.makeText(context, "Please enter a class name", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "Please enter a course name", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
-            val instructor = binding.instructorEditText.text.toString()
+            // Remove the instructor variable
             val duration = binding.durationEditText.text.toString().toIntOrNull() ?: 0
             val selectedTypes = binding.classTypeChipGroup.checkedChipIds.map { chipId ->
                 (binding.classTypeChipGroup.findViewById<Chip>(chipId)).text.toString()
             }
 
             val time = SimpleDateFormat("HH:mm", Locale.getDefault()).format(calendar.time)
-            val date = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(calendar.time)
-            val dayOfWeek = SimpleDateFormat("EEEE", Locale.getDefault()).format(calendar.time)
+            val dayOfWeek = SimpleDateFormat("EEEE", Locale.getDefault()).format(Date(startDate))
 
             val yogaClass = YogaClass(
                 id = UUID.randomUUID().toString(),
                 name = className,
-                instructor = instructor,
+                instructor = "", // Pass an empty string for now
                 time = time,
-                date = date,
+                startDate = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(Date(startDate)),
+                endDate = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(Date(endDate)),
                 dayOfWeek = dayOfWeek,
                 duration = duration,
                 level = selectedTypes.joinToString(", "),
@@ -153,14 +163,16 @@ class YogaClassFragment : Fragment() {
 
     private fun clearInputs() {
         binding.classNameEditText.text?.clear()
-        binding.instructorEditText.text?.clear()
+        // Remove the line clearing instructorEditText
         binding.durationEditText.text?.clear()
         binding.descriptionEditText.text?.clear()
         binding.classTypeChipGroup.clearCheck()
         binding.customTypeEditText.text?.clear()
         calendar.time = Date() // Reset to current date and time
-        updateDateButtonText()
         updateTimeButtonText()
+        startDate = 0
+        endDate = 0
+        binding.dateRangePickerButton.text = "Select Course Duration"
     }
 
     override fun onDestroyView() {

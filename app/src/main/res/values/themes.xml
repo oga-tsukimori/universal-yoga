@@ -25,18 +25,11 @@
 
     <style name="Theme.UniversalYogaLondon.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
-    <!-- Add any other unique styles that were in styles.xml here -->
-
     <style name="ThemeMaterialCalendar" parent="ThemeOverlay.MaterialComponents.MaterialCalendar">
         <item name="colorPrimary">@color/pink_500</item>
         <item name="colorOnPrimary">@color/white</item>
         <item name="colorSurface">@color/white</item>
         <item name="colorOnSurface">@color/black</item>
-        <item name="materialCalendarHeaderToggleButton">@style/Widget.App.MaterialCalendarHeaderToggleButton</item>
-    </style>
-
-    <style name="Widget.App.MaterialCalendarHeaderToggleButton" parent="Widget.MaterialComponents.MaterialCalendar.HeaderToggleButton">
-        <item name="android:tint">@color/pink_500</item>
     </style>
 
     <style name="ThemeMaterialTimePicker" parent="ThemeOverlay.MaterialComponents.TimePicker">
@@ -44,7 +37,6 @@
         <item name="colorOnPrimary">@color/white</item>
         <item name="colorSurface">@color/white</item>
         <item name="colorOnSurface">@color/black</item>
-        <item name="materialButtonStyle">@style/Widget.App.Button</item>
     </style>
 
     <style name="Widget.App.Button" parent="Widget.MaterialComponents.Button.TextButton.Dialog">

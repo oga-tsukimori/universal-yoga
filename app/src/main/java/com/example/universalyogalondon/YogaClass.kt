@@ -5,9 +5,10 @@ data class YogaClass(
     val name: String,
     val instructor: String,
     val time: String,
-    val date: String,
+    val startDate: String,
+    val endDate: String,
     val dayOfWeek: String,
     val duration: Int,
-    val level: String, // This will now contain comma-separated class types
+    val level: String,
     val description: String
 )

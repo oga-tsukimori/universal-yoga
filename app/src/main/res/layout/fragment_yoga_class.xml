@@ -14,14 +14,14 @@
             android:id="@+id/classNameEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Class Name" />
+            android:hint="Course Name" />
 
-        <EditText
-            android:id="@+id/instructorEditText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:hint="Instructor Name" />
+<!--        <EditText-->
+<!--            android:id="@+id/instructorEditText"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginTop="16dp"-->
+<!--            android:hint="Instructor Name" />-->
 
         <EditText
             android:id="@+id/durationEditText"
@@ -68,13 +68,13 @@
 
         </LinearLayout>
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/datePickerButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="@string/select_date"
-            style="@style/Widget.MaterialComponents.Button.OutlinedButton" />
+<!--        <com.google.android.material.button.MaterialButton-->
+<!--            android:id="@+id/datePickerButton"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginTop="16dp"-->
+<!--            android:text="@string/select_date"-->
+<!--            style="@style/Widget.MaterialComponents.Button.OutlinedButton" />-->
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/timePickerButton"
@@ -82,6 +82,14 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:text="@string/select_time"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton" />
+
+        <Button
+            android:id="@+id/dateRangePickerButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Select Course Duration"
             style="@style/Widget.MaterialComponents.Button.OutlinedButton" />
 
         <EditText
@@ -98,7 +106,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:text="Save Class" />
+            android:text="Save Course" />
 
     </LinearLayout>
 </ScrollView>
