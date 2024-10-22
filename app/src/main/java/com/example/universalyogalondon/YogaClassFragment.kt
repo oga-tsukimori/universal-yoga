@@ -5,7 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import com.example.universalyogalondon.databinding.FragmentYogaClassBinding
+import com.example.universalyogalondon.databinding.FragmentYogaCourseBinding
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.datepicker.CalendarConstraints
 import com.google.android.material.datepicker.DateValidatorPointForward
@@ -23,10 +23,11 @@ import android.widget.Button
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.universalyogalondon.ClassInfo
+import androidx.lifecycle.ViewModelProvider
 
 class YogaClassFragment : Fragment() {
 
-    private var _binding: FragmentYogaClassBinding? = null
+    private var _binding: FragmentYogaCourseBinding? = null
     private val binding get() = _binding!!
     private val calendar = Calendar.getInstance()
     private var startDate: Long = 0
@@ -34,13 +35,19 @@ class YogaClassFragment : Fragment() {
 
     private val classes = mutableListOf<ClassInfo>()
     private lateinit var classAdapter: ClassAdapter
+    private lateinit var viewModel: SharedViewModel
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        viewModel = ViewModelProvider(requireActivity()).get(SharedViewModel::class.java)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentYogaClassBinding.inflate(inflater, container, false)
+        _binding = FragmentYogaCourseBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -169,7 +176,8 @@ class YogaClassFragment : Fragment() {
             )
 
             YogaClassStorage.addClass(yogaClass)
-            Toast.makeText(context, "Class saved successfully", Toast.LENGTH_SHORT).show()
+            viewModel.addCourse(yogaClass) // Add this line
+            Toast.makeText(context, "Course saved successfully", Toast.LENGTH_SHORT).show()
             clearInputs()
         }
     }

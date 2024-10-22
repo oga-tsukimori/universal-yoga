@@ -14,12 +14,17 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.universalyogalondon.databinding.ActivityMainBinding
 import com.google.android.material.navigation.NavigationView
+import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
     private lateinit var navController: NavController
+    private lateinit var viewModel: SharedViewModel
+    private lateinit var courseAdapter: CourseAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,6 +42,26 @@ class MainActivity : AppCompatActivity() {
         setupActionBarWithNavController(navController, appBarConfiguration)
 
         binding.bottomNavView.setupWithNavController(navController)
+
+        viewModel = ViewModelProvider(this).get(SharedViewModel::class.java)
+
+        setupCourseList()
+        observeCourses()
+    }
+
+    private fun setupCourseList() {
+        val recyclerView = findViewById<RecyclerView>(R.id.courseRecyclerView)
+        courseAdapter = CourseAdapter(emptyList())
+        recyclerView.apply {
+            layoutManager = LinearLayoutManager(this@MainActivity)
+            adapter = courseAdapter
+        }
+    }
+
+    private fun observeCourses() {
+        viewModel.courses.observe(this) { courses ->
+            courseAdapter.updateCourses(courses)
+        }
     }
 
     override fun onSupportNavigateUp(): Boolean {

@@ -9,7 +9,7 @@
         android:id="@+id/nav_yoga_class"
         android:name="com.example.universalyogalondon.YogaClassFragment"
         android:label="Yoga Class"
-        tools:layout="@layout/fragment_yoga_class" />
+        tools:layout="@layout/fragment_yoga_course" />
 
     <fragment
         android:id="@+id/nav_class_calendar"
