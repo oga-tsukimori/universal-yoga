@@ -7,19 +7,19 @@
 
     <fragment
         android:id="@+id/nav_yoga_class"
-        android:name="com.example.universalyogalondon.YogaClassFragment"
+        android:name="com.example.universalyogalondon.fragment.YogaClassFragment"
         android:label="Yoga Class"
         tools:layout="@layout/fragment_yoga_course" />
 
     <fragment
         android:id="@+id/nav_class_calendar"
-        android:name="com.example.universalyogalondon.ClassCalendarFragment"
+        android:name="com.example.universalyogalondon.fragment.ClassCalendarFragment"
         android:label="Class Calendar"
         tools:layout="@layout/fragment_class_calendar" />
 
     <fragment
         android:id="@+id/nav_user_profile"
-        android:name="com.example.universalyogalondon.UserProfileFragment"
+        android:name="com.example.universalyogalondon.fragment.UserProfileFragment"
         android:label="User Profile"
         tools:layout="@layout/fragment_user_profile" />
 

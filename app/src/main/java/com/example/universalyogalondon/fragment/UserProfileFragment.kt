@@ -1,4 +1,4 @@
-package com.example.universalyogalondon
+package com.example.universalyogalondon.fragment
 
 import android.os.Build
 import android.os.Bundle
@@ -9,6 +9,7 @@ import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.universalyogalondon.adapter.CourseAdapter
 import com.example.universalyogalondon.databinding.FragmentUserProfileBinding
 import com.example.universalyogalondon.helper.DatabaseHelper
 

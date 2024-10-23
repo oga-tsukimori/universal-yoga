@@ -1,10 +1,12 @@
-package com.example.universalyogalondon
+package com.example.universalyogalondon.adapter
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.example.universalyogalondon.R
+import com.example.universalyogalondon.model.YogaClass
 
 class CourseAdapter(private var courses: List<YogaClass>) : RecyclerView.Adapter<CourseAdapter.ViewHolder>() {
 

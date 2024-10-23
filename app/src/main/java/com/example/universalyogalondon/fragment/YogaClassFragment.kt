@@ -1,4 +1,4 @@
-package com.example.universalyogalondon
+package com.example.universalyogalondon.fragment
 
 import android.os.Bundle
 import android.view.View
@@ -9,23 +9,22 @@ import com.example.universalyogalondon.databinding.FragmentYogaCourseBinding
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.datepicker.CalendarConstraints
 import com.google.android.material.datepicker.DateValidatorPointForward
-import com.google.android.material.timepicker.MaterialTimePicker
-import com.google.android.material.timepicker.TimeFormat
 import java.text.SimpleDateFormat
 import java.util.*
 import com.google.android.material.chip.Chip
 import android.text.Editable
 import android.text.TextWatcher
 import android.app.AlertDialog
-import android.util.Log
 import android.view.LayoutInflater
 import android.widget.EditText
 import android.widget.Button
-import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.universalyogalondon.ClassInfo
-import androidx.lifecycle.ViewModelProvider
+import com.example.universalyogalondon.R
+import com.example.universalyogalondon.SharedViewModel
+import com.example.universalyogalondon.adapter.ClassAdapter
 import com.example.universalyogalondon.helper.DatabaseHelper
+import com.example.universalyogalondon.model.ClassInfo
+import com.example.universalyogalondon.model.YogaClass
 
 class YogaClassFragment : Fragment() {
 

@@ -1,5 +1,7 @@
 package com.example.universalyogalondon
 
+import com.example.universalyogalondon.model.YogaClass
+
 object YogaClassStorage {
     private val classes = mutableListOf<YogaClass>()
 

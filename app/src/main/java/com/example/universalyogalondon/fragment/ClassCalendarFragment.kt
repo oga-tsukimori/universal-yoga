@@ -1,4 +1,4 @@
-package com.example.universalyogalondon
+package com.example.universalyogalondon.fragment
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -11,6 +11,8 @@ import android.graphics.Typeface
 import android.view.Gravity
 import java.util.*
 import androidx.core.content.ContextCompat
+import com.example.universalyogalondon.R
+import com.example.universalyogalondon.YogaClassStorage
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 

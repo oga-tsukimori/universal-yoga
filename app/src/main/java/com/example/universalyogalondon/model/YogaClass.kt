@@ -1,4 +1,4 @@
-package com.example.universalyogalondon
+package com.example.universalyogalondon.model
 
 data class YogaClass(
     val id: String,

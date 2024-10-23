@@ -1,22 +1,20 @@
-package com.example.universalyogalondon
+package com.example.universalyogalondon.activity
 
 import android.os.Bundle
-import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.GravityCompat
-import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.universalyogalondon.databinding.ActivityMainBinding
-import com.google.android.material.navigation.NavigationView
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.universalyogalondon.R
+import com.example.universalyogalondon.SharedViewModel
+import com.example.universalyogalondon.adapter.CourseAdapter
 
 class MainActivity : AppCompatActivity() {
 
