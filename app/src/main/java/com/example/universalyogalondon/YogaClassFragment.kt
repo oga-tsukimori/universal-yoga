@@ -17,6 +17,7 @@ import com.google.android.material.chip.Chip
 import android.text.Editable
 import android.text.TextWatcher
 import android.app.AlertDialog
+import android.util.Log
 import android.view.LayoutInflater
 import android.widget.EditText
 import android.widget.Button
@@ -24,6 +25,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.universalyogalondon.ClassInfo
 import androidx.lifecycle.ViewModelProvider
+import com.example.universalyogalondon.helper.DatabaseHelper
 
 class YogaClassFragment : Fragment() {
 
@@ -36,10 +38,13 @@ class YogaClassFragment : Fragment() {
     private val classes = mutableListOf<ClassInfo>()
     private lateinit var classAdapter: ClassAdapter
     private lateinit var viewModel: SharedViewModel
+    private lateinit var dbHelper: DatabaseHelper
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel = ViewModelProvider(requireActivity()).get(SharedViewModel::class.java)
+        //viewModel = ViewModelProvider(requireActivity()).get(SharedViewModel::class.java)
+        // Initialize SQLite Database Helper
+        dbHelper = DatabaseHelper(requireActivity())
     }
 
     override fun onCreateView(
@@ -175,9 +180,10 @@ class YogaClassFragment : Fragment() {
                 description = binding.descriptionEditText.text.toString()
             )
 
-            YogaClassStorage.addClass(yogaClass)
-            viewModel.addCourse(yogaClass) // Add this line
-            Toast.makeText(context, "Course saved successfully", Toast.LENGTH_SHORT).show()
+            saveCourseToDatabase(yogaClass)
+//            YogaClassStorage.addClass(yogaClass)
+//            viewModel.addCourse(yogaClass) // Add this line
+//            Toast.makeText(context, "Course saved successfully", Toast.LENGTH_SHORT).show()
             clearInputs()
         }
     }
@@ -252,6 +258,18 @@ class YogaClassFragment : Fragment() {
         binding.classesRecyclerView.apply {
             layoutManager = LinearLayoutManager(context)
             adapter = classAdapter
+        }
+    }
+
+    private fun saveCourseToDatabase(yogaClass: YogaClass) {
+
+        val result = dbHelper.insertCourse(yogaClass.name
+            , yogaClass.duration, yogaClass.description, yogaClass.level)
+
+        if (result > 0) {
+            Toast.makeText(context, "Course saved successfully", Toast.LENGTH_SHORT).show()
+        } else {
+            Toast.makeText(context, "Failed to save course", Toast.LENGTH_SHORT).show()
         }
     }
 }

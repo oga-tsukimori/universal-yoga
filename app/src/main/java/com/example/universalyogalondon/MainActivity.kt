@@ -45,7 +45,7 @@ class MainActivity : AppCompatActivity() {
 
         viewModel = ViewModelProvider(this).get(SharedViewModel::class.java)
 
-        setupCourseList()
+        //setupCourseList()
         observeCourses()
     }
 

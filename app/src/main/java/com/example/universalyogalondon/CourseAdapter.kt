@@ -22,7 +22,7 @@ class CourseAdapter(private var courses: List<YogaClass>) : RecyclerView.Adapter
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val course = courses[position]
         holder.courseName.text = course.name
-        holder.courseInstructor.text = "Instructor: ${course.instructor}"
+        holder.courseInstructor.text = "Instructor: ${course.description}"
         holder.courseDuration.text = "Duration: ${course.duration} minutes"
     }
 
