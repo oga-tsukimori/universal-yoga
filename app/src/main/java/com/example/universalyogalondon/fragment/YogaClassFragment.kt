@@ -1,16 +1,14 @@
-package com.example.universalyogalondon
+package com.example.universalyogalondon.fragment
 
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import com.example.universalyogalondon.databinding.FragmentYogaClassBinding
+import com.example.universalyogalondon.databinding.FragmentYogaCourseBinding
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.datepicker.CalendarConstraints
 import com.google.android.material.datepicker.DateValidatorPointForward
-import com.google.android.material.timepicker.MaterialTimePicker
-import com.google.android.material.timepicker.TimeFormat
 import java.text.SimpleDateFormat
 import java.util.*
 import com.google.android.material.chip.Chip
@@ -20,13 +18,17 @@ import android.app.AlertDialog
 import android.view.LayoutInflater
 import android.widget.EditText
 import android.widget.Button
-import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.universalyogalondon.ClassInfo
+import com.example.universalyogalondon.R
+import com.example.universalyogalondon.SharedViewModel
+import com.example.universalyogalondon.adapter.ClassAdapter
+import com.example.universalyogalondon.helper.DatabaseHelper
+import com.example.universalyogalondon.model.ClassInfo
+import com.example.universalyogalondon.model.YogaClass
 
 class YogaClassFragment : Fragment() {
 
-    private var _binding: FragmentYogaClassBinding? = null
+    private var _binding: FragmentYogaCourseBinding? = null
     private val binding get() = _binding!!
     private val calendar = Calendar.getInstance()
     private var startDate: Long = 0
@@ -34,13 +36,22 @@ class YogaClassFragment : Fragment() {
 
     private val classes = mutableListOf<ClassInfo>()
     private lateinit var classAdapter: ClassAdapter
+    private lateinit var viewModel: SharedViewModel
+    private lateinit var dbHelper: DatabaseHelper
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        //viewModel = ViewModelProvider(requireActivity()).get(SharedViewModel::class.java)
+        // Initialize SQLite Database Helper
+        dbHelper = DatabaseHelper(requireActivity())
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentYogaClassBinding.inflate(inflater, container, false)
+        _binding = FragmentYogaCourseBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -168,8 +179,10 @@ class YogaClassFragment : Fragment() {
                 description = binding.descriptionEditText.text.toString()
             )
 
-            YogaClassStorage.addClass(yogaClass)
-            Toast.makeText(context, "Class saved successfully", Toast.LENGTH_SHORT).show()
+            saveCourseToDatabase(yogaClass)
+//            YogaClassStorage.addClass(yogaClass)
+//            viewModel.addCourse(yogaClass) // Add this line
+//            Toast.makeText(context, "Course saved successfully", Toast.LENGTH_SHORT).show()
             clearInputs()
         }
     }
@@ -244,6 +257,18 @@ class YogaClassFragment : Fragment() {
         binding.classesRecyclerView.apply {
             layoutManager = LinearLayoutManager(context)
             adapter = classAdapter
+        }
+    }
+
+    private fun saveCourseToDatabase(yogaClass: YogaClass) {
+
+        val result = dbHelper.insertCourse(yogaClass.name
+            , yogaClass.duration, yogaClass.description, yogaClass.level)
+
+        if (result > 0) {
+            Toast.makeText(context, "Course saved successfully", Toast.LENGTH_SHORT).show()
+        } else {
+            Toast.makeText(context, "Failed to save course", Toast.LENGTH_SHORT).show()
         }
     }
 }

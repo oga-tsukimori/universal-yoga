@@ -1,25 +1,28 @@
-package com.example.universalyogalondon
+package com.example.universalyogalondon.activity
 
 import android.os.Bundle
-import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.GravityCompat
-import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.universalyogalondon.databinding.ActivityMainBinding
-import com.google.android.material.navigation.NavigationView
+import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.example.universalyogalondon.R
+import com.example.universalyogalondon.SharedViewModel
+import com.example.universalyogalondon.adapter.CourseAdapter
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
     private lateinit var navController: NavController
+    private lateinit var viewModel: SharedViewModel
+    private lateinit var courseAdapter: CourseAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,6 +40,26 @@ class MainActivity : AppCompatActivity() {
         setupActionBarWithNavController(navController, appBarConfiguration)
 
         binding.bottomNavView.setupWithNavController(navController)
+
+        viewModel = ViewModelProvider(this).get(SharedViewModel::class.java)
+
+        //setupCourseList()
+        observeCourses()
+    }
+
+    private fun setupCourseList() {
+        val recyclerView = findViewById<RecyclerView>(R.id.courseRecyclerView)
+        courseAdapter = CourseAdapter(emptyList())
+        recyclerView.apply {
+            layoutManager = LinearLayoutManager(this@MainActivity)
+            adapter = courseAdapter
+        }
+    }
+
+    private fun observeCourses() {
+        viewModel.courses.observe(this) { courses ->
+            courseAdapter.updateCourses(courses)
+        }
     }
 
     override fun onSupportNavigateUp(): Boolean {
